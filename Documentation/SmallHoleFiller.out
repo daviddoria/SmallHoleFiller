@@ -1,19 +1,4 @@
 \BOOKMARK [1][]{section.1}{Introduction}{}
-\BOOKMARK [1][]{section.2}{Hole Filling}{}
-\BOOKMARK [2][]{subsection.2.1}{Input}{section.2}
-\BOOKMARK [2][]{subsection.2.2}{Concept}{section.2}
-\BOOKMARK [2][]{subsection.2.3}{Discrete Solution}{section.2}
-\BOOKMARK [2][]{subsection.2.4}{Code Snippet}{section.2}
-\BOOKMARK [1][]{section.3}{Region Copying}{}
-\BOOKMARK [2][]{subsection.3.1}{Input}{section.3}
-\BOOKMARK [2][]{subsection.3.2}{Concept}{section.3}
-\BOOKMARK [2][]{subsection.3.3}{Discrete Solution}{section.3}
-\BOOKMARK [2][]{subsection.3.4}{Code Snippet}{section.3}
-\BOOKMARK [1][]{section.4}{Manipulation in the Gradient Domain}{}
-\BOOKMARK [2][]{subsection.4.1}{Reconstructing an Image from Its Derivatives}{section.4}
-\BOOKMARK [3][]{section*.2}{Implementation}{subsection.4.1}
-\BOOKMARK [2][]{subsection.4.2}{Reconstructing an Image from Its Laplacian}{section.4}
-\BOOKMARK [3][]{section*.3}{Implementation}{subsection.4.2}
-\BOOKMARK [1][]{section.5}{Notes}{}
-\BOOKMARK [2][]{subsection.5.1}{Clamping outputs}{section.5}
-\BOOKMARK [2][]{subsection.5.2}{Efficiency}{section.5}
+\BOOKMARK [1][]{section.2}{Algorithm}{}
+\BOOKMARK [1][]{section.3}{Demonstration}{}
+\BOOKMARK [1][]{section.4}{Code Snippet}{}

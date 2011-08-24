@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.8.24)  24 AUG 2011 15:04
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.8.24)  24 AUG 2011 15:27
 entering extended mode
  %&-line parsing enabled.
 **SmallHoleFiller.tex
@@ -355,7 +355,7 @@ Package hyperref Warning: Wrong driver `hdvips.def';
 File: hpdftex.def 2009/10/09 v6.79a Hyperref driver for pdfTeX
 \Fld@listcount=\count123
 )
-No file SmallHoleFiller.aux.
+(./SmallHoleFiller.aux)
 \openout1 = `SmallHoleFiller.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
@@ -367,7 +367,7 @@ LaTeX Font Info:    ... okay on input line 51.
 LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 51.
 LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 51
 .
-(/usr/share/texmf-texlive/tex/latex/psnfss/omspzccm.fd
+ (/usr/share/texmf-texlive/tex/latex/psnfss/omspzccm.fd
 File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
 )
 LaTeX Font Info:    ... okay on input line 51.
@@ -377,7 +377,6 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 51.
 LaTeX Font Info:    ... okay on input line 51.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 51.
 LaTeX Font Info:    ... okay on input line 51.
-
 (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count124
@@ -410,6 +409,8 @@ Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
 LaTeX Info: Redefining \ref on input line 51.
 LaTeX Info: Redefining \pageref on input line 51.
+
+(./SmallHoleFiller.out) (./SmallHoleFiller.out)
 \@outlinefile=\write4
 \openout4 = `SmallHoleFiller.out'.
 
@@ -457,535 +458,51 @@ Overfull \hbox (12.27496pt too wide) in paragraph at lines 93--94
 [][] 
  []
 
+(./SmallHoleFiller.toc)
 \tf@toc=\write5
 \openout5 = `SmallHoleFiller.toc'.
 
-
-LaTeX Warning: Citation `PoissonImageEditing' on page 1 undefined on input line
- 99.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 103--104
-[]\OT1/ptm/m/n/10.95 Motivation for this im-ple-men-ta-tion came from an im-ple
--men-ta-tion avail-able here:
- []
-
-
-LaTeX Warning: Reference `fig:HoleFilling:original' on page 1 undefined on inpu
-t line 107.
-
-
-LaTeX Warning: Reference `fig:HoleFilling:mask' on page 1 undefined on input li
-ne 107.
-
-
-LaTeX Warning: Reference `fig:HoleFilling:filled' on page 1 undefined on input 
-line 107.
-
-[1
+ [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-
-! LaTeX Error: File `images/plane' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.114 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (4.5149pt too wide) in paragraph at lines 114--114
-[]\OT1/ptm/m/n/9 (a)
- []
-
-
-Overfull \hbox (14.01883pt too wide) in paragraph at lines 114--114
-\OT1/ptm/m/n/9 Orig-
- []
-
-
-Overfull \hbox (5.52287pt too wide) in paragraph at lines 114--114
-\OT1/ptm/m/n/9 nal
- []
-
-
-Overfull \hbox (7.0258pt too wide) in paragraph at lines 114--114
-\OT1/ptm/m/n/9 im-
- []
-
-
-Overfull \hbox (7.0169pt too wide) in paragraph at lines 114--114
-\OT1/ptm/m/n/9 age 
- []
-
-
-! LaTeX Error: File `images/planeMask' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.118 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (5.01895pt too wide) in paragraph at lines 118--118
-[]\OT1/ptm/m/n/9 (b)
- []
-
-
-Overfull \hbox (14.52277pt too wide) in paragraph at lines 118--118
-\OT1/ptm/m/n/9 Mask 
- []
-
-
-! LaTeX Error: File `images/planeFilled' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.122 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (4.5149pt too wide) in paragraph at lines 122--122
-[]\OT1/ptm/m/n/9 (c)
- []
-
-
-Overfull \hbox (15.53062pt too wide) in paragraph at lines 122--122
-\OT1/ptm/m/n/9 Filled
- []
-
-
-Overfull \hbox (7.0258pt too wide) in paragraph at lines 122--122
-\OT1/ptm/m/n/9 im-
- []
-
-
-Overfull \hbox (7.0169pt too wide) in paragraph at lines 122--122
-\OT1/ptm/m/n/9 age 
- []
-
-LaTeX Font Info:    Font shape `OT1/phv/m/n' will be
-(Font)              scaled to size 10.79993pt on input line 127.
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/pzccm/m/n' tried instead on input line 130.
+(Font)              Font shape `OMS/pzccm/m/n' tried instead on input line 106.
 
+
+<images/input.png, id=39, 803.0pt x 995.72pt>
+File: images/input.png Graphic file (type png)
+ <use images/input.png>
+<images/output.png, id=40, 803.0pt x 995.72pt>
+File: images/output.png Graphic file (type png)
+ <use images/output.png>
 LaTeX Font Info:    Font shape `OT1/phv/m/n' will be
-(Font)              scaled to size 9.85492pt on input line 161.
+(Font)              scaled to size 9.85492pt on input line 141.
 
 Overfull \vbox (1.59999pt too high) has occurred while \output is active []
 
 
-[2]
-
-LaTeX Warning: Reference `eqn:DiscreteLaplacian' on page 3 undefined on input l
-ine 173.
-
-
-LaTeX Warning: Reference `fig:RegionCopying:original' on page 3 undefined on in
-put line 204.
-
-
-LaTeX Warning: Reference `fig:RegionCopying:target' on page 3 undefined on inpu
-t line 204.
-
-
-LaTeX Warning: Reference `fig:RegionCopying' on page 3 undefined on input line 
-204.
-
-
+[2 <./images/input.png (PNG copy)> <./images/output.png (PNG copy)>]
 Overfull \vbox (1.59999pt too high) has occurred while \output is active []
 
 
-[3]
-
-! LaTeX Error: File `images/plane' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.211 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (4.5149pt too wide) in paragraph at lines 211--211
-[]\OT1/ptm/m/n/9 (a)
- []
-
-
-Overfull \hbox (14.01883pt too wide) in paragraph at lines 211--211
-\OT1/ptm/m/n/9 Orig-
- []
-
-
-Overfull \hbox (5.52287pt too wide) in paragraph at lines 211--211
-\OT1/ptm/m/n/9 nal
- []
-
-
-Overfull \hbox (7.0258pt too wide) in paragraph at lines 211--211
-\OT1/ptm/m/n/9 im-
- []
-
-
-Overfull \hbox (7.0169pt too wide) in paragraph at lines 211--211
-\OT1/ptm/m/n/9 age 
- []
-
-
-! LaTeX Error: File `images/planeMask' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.215 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (5.01895pt too wide) in paragraph at lines 215--215
-[]\OT1/ptm/m/n/9 (b)
- []
-
-
-Overfull \hbox (14.52277pt too wide) in paragraph at lines 215--215
-\OT1/ptm/m/n/9 Mask 
- []
-
-
-! LaTeX Error: File `images/planeTarget' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.219 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (4.5149pt too wide) in paragraph at lines 219--219
-[]\OT1/ptm/m/n/9 (c)
- []
-
-
-Overfull \hbox (9.11397pt too wide) in paragraph at lines 219--219
-\OT1/ptm/m/n/9 Tar-
- []
-
-
-Overfull \hbox (5.52287pt too wide) in paragraph at lines 219--219
-\OT1/ptm/m/n/9 get
- []
-
-
-Overfull \hbox (7.52086pt too wide) in paragraph at lines 219--219
-\OT1/ptm/m/n/9 Im-
- []
-
-
-Overfull \hbox (7.0169pt too wide) in paragraph at lines 219--219
-\OT1/ptm/m/n/9 age 
- []
-
-
-! LaTeX Error: File `images/planeCopyingResult' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.223 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (5.01895pt too wide) in paragraph at lines 223--223
-[]\OT1/ptm/m/n/9 (d)
- []
-
-
-Overfull \hbox (7.52086pt too wide) in paragraph at lines 223--223
-\OT1/ptm/m/n/9 Re-
- []
-
-
-Overfull \hbox (10.5267pt too wide) in paragraph at lines 223--223
-\OT1/ptm/m/n/9 sult-
- []
-
-
-Overfull \hbox (6.02693pt too wide) in paragraph at lines 223--223
-\OT1/ptm/m/n/9 ing
- []
-
-
-Overfull \hbox (7.52086pt too wide) in paragraph at lines 223--223
-\OT1/ptm/m/n/9 Im-
- []
-
-
-Overfull \hbox (7.0169pt too wide) in paragraph at lines 223--223
-\OT1/ptm/m/n/9 age 
- []
-
-
-LaTeX Warning: Citation `PoissonImageEditing' on page 4 undefined on input line
- 238.
-
-
-Overfull \vbox (1.59999pt too high) has occurred while \output is active []
-
-
-[4]
-
-LaTeX Warning: Reference `sec:ReconstructingFromDerivatives' on page 5 undefine
-d on input line 287.
-
-
-Overfull \hbox (18.38737pt too wide) in paragraph at lines 304--330
-[][]   [] 
- []
-
-
-Overfull \vbox (1.59999pt too high) has occurred while \output is active []
-
-
-[5]
-
-LaTeX Warning: Reference `fig:DerivativeReconstruction' on page 6 undefined on 
-input line 341.
-
-
-LaTeX Warning: Reference `fig:DerivativeReconstruction:original' on page 6 unde
-fined on input line 341.
-
-
-! LaTeX Error: File `images/smiley' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.348 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (4.5149pt too wide) in paragraph at lines 348--348
-[]\OT1/ptm/m/n/9 (a)
- []
-
-
-Overfull \hbox (14.01883pt too wide) in paragraph at lines 348--348
-\OT1/ptm/m/n/9 Orig-
- []
-
-
-Overfull \hbox (5.52287pt too wide) in paragraph at lines 348--348
-\OT1/ptm/m/n/9 nal
- []
-
-
-Overfull \hbox (7.0258pt too wide) in paragraph at lines 348--348
-\OT1/ptm/m/n/9 im-
- []
-
-
-Overfull \hbox (7.0169pt too wide) in paragraph at lines 348--348
-\OT1/ptm/m/n/9 age 
- []
-
-
-! LaTeX Error: File `images/smileyXDerivative' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.352 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 352.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 352.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 352.
-
-Overfull \hbox (5.01895pt too wide) in paragraph at lines 352--352
-[]\OT1/ptm/m/n/9 (b)
- []
-
-
-Overfull \hbox (4.65187pt too wide) in paragraph at lines 352--352
-\OML/ptmcm/m/it/9 D[]$ 
- []
-
-
-! LaTeX Error: File `images/smileyYDerivative' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.356 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (4.5149pt too wide) in paragraph at lines 356--356
-[]\OT1/ptm/m/n/9 (c)
- []
-
-
-Overfull \hbox (4.63095pt too wide) in paragraph at lines 356--356
-\OML/ptmcm/m/it/9 D[]$ 
- []
-
-
-! LaTeX Error: File `images/smileyReconstructed' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.360 }
-       
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (5.01895pt too wide) in paragraph at lines 360--360
-[]\OT1/ptm/m/n/9 (d)
- []
-
-
-Overfull \hbox (7.52086pt too wide) in paragraph at lines 360--360
-\OT1/ptm/m/n/9 Re-
- []
-
-
-Overfull \hbox (10.5267pt too wide) in paragraph at lines 360--360
-\OT1/ptm/m/n/9 sult-
- []
-
-
-Overfull \hbox (6.02693pt too wide) in paragraph at lines 360--360
-\OT1/ptm/m/n/9 ing
- []
-
-
-Overfull \hbox (7.52086pt too wide) in paragraph at lines 360--360
-\OT1/ptm/m/n/9 Im-
- []
-
-
-Overfull \hbox (7.0169pt too wide) in paragraph at lines 360--360
-\OT1/ptm/m/n/9 age 
- []
-
-
-LaTeX Warning: Reference `sec:RegionCopying' on page 6 undefined on input line 
-370.
-
-
-Overfull \vbox (1.59999pt too high) has occurred while \output is active []
-
-
-[6]
-Overfull \hbox (18.38737pt too wide) in paragraph at lines 401--424
-[][]   [] 
- []
-
-
-Overfull \hbox (18.38737pt too wide) in paragraph at lines 429--453
-[][]   [] 
- []
-
-
-Overfull \vbox (1.59999pt too high) has occurred while \output is active []
-
-
-[7]
-No file SmallHoleFiller.bbl.
-
-Overfull \vbox (1.59999pt too high) has occurred while \output is active []
-
-
-[8] (./SmallHoleFiller.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[3] (./SmallHoleFiller.aux) ) 
 Here is how much of TeX's memory you used:
- 6211 strings out of 495061
- 85853 string characters out of 1182621
- 167555 words of memory out of 3000000
- 9157 multiletter control sequences out of 15000+50000
- 50673 words of font info for 97 fonts, out of 3000000 for 9000
+ 6082 strings out of 495061
+ 84138 string characters out of 1182621
+ 160787 words of memory out of 3000000
+ 9120 multiletter control sequences out of 15000+50000
+ 30144 words of font info for 58 fonts, out of 3000000 for 9000
  29 hyphenation exceptions out of 8191
- 41i,12n,42p,797b,401s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/ty
-pe1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/
-amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/
-cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/s
-hare/texmf-texlive/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-texliv
-e/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texmf-texlive/fonts/type1/ur
-w/symbol/usyr.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></
-usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texl
-ive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on SmallHoleFiller.pdf (8 pages, 139470 bytes).
+ 41i,11n,42p,403b,506s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.
+enc}</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/s
+hare/texmf-texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-texlive
+/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/
+helvetic/uhvro8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb
+></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb>
+Output written on SmallHoleFiller.pdf (3 pages, 2504682 bytes).
 PDF statistics:
- 192 PDF objects out of 1000 (max. 8388607)
- 75 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 87 PDF objects out of 1000 (max. 8388607)
+ 15 named destinations out of 1000 (max. 500000)
+ 43 words of extra memory for PDF output out of 10000 (max. 10000000)
 
