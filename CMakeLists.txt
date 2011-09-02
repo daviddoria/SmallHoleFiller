@@ -7,7 +7,16 @@ PROJECT(SmallHoleFiller)
 
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE( ${USE_ITK_FILE} )
+# 
+# add_executable(SmallHoleFillerExample SmallHoleFillerExample.cpp)
+# TARGET_LINK_LIBRARIES(SmallHoleFillerExample ${ITK_LIBRARIES})
+# INSTALL( TARGETS SmallHoleFillerExample RUNTIME DESTINATION ${INSTALL_DIR} )
+# 
+# 
+# add_executable(SmallHoleFillerWithMaskExample SmallHoleFillerWithMaskExample.cpp)
+# TARGET_LINK_LIBRARIES(SmallHoleFillerWithMaskExample ${ITK_LIBRARIES})
+# INSTALL( TARGETS SmallHoleFillerWithMaskExample RUNTIME DESTINATION ${INSTALL_DIR} )
 
-add_executable(SmallHoleFillerExample SmallHoleFillerExample.cpp)
-TARGET_LINK_LIBRARIES(SmallHoleFillerExample ${ITK_LIBRARIES})
-INSTALL( TARGETS SmallHoleFillerExample RUNTIME DESTINATION ${INSTALL_DIR} )
+add_executable(SmallHoleFiller SmallHoleFiller.cpp)
+TARGET_LINK_LIBRARIES(SmallHoleFiller ${ITK_LIBRARIES})
+INSTALL( TARGETS SmallHoleFiller RUNTIME DESTINATION ${INSTALL_DIR} )
