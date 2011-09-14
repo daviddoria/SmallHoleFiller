@@ -1,3 +1,21 @@
+/*=========================================================================
+ *
+ *  Copyright David Doria 2011 daviddoria@gmail.com
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+
 #include "itkImageFileWriter.h" // For intermediate debugging output
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
@@ -10,7 +28,12 @@ SmallHoleFiller<TImage>::SmallHoleFiller()
   //this->HolePixel = itk::NumericTraits< typename TImage::PixelType >::Zero;
   this->Image = NULL;
   this->Output = NULL;
-  this->Mask = NULL;
+  
+//   this->Mask = NULL;
+//   this->OriginalMask = NULL;
+  this->Mask = MaskImageType::New();
+  this->OriginalMask = MaskImageType::New();
+  
   this->WriteIntermediateOutput = false;
 }
 
@@ -24,7 +47,8 @@ void SmallHoleFiller<TImage>::SetImage(typename TImage::Pointer image)
 template <typename TImage>
 void SmallHoleFiller<TImage>::SetMask(MaskImageType::Pointer mask)
 {
-  this->Mask = mask;
+  DeepCopy<MaskImageType>(mask, this->OriginalMask);
+  DeepCopy<MaskImageType>(mask, this->Mask);
 }
 
 template <typename TImage>
@@ -182,6 +206,12 @@ bool SmallHoleFiller<TImage>::HasEmptyPixels()
     ++maskIterator;
     }
   return false;
+}
+
+template <typename TImage>
+typename SmallHoleFiller<TImage>::MaskImageType::Pointer SmallHoleFiller<TImage>::GetMask()
+{
+  return this->Mask;
 }
 
 template <typename TImage>
