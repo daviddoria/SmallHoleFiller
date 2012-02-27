@@ -69,7 +69,7 @@ SmallHoleFillerWidget::SmallHoleFillerWidget(const std::string& imageFileName, c
   OpenImageAndMask(this->SourceImageFileName, this->MaskImageFileName);
 }
 
-void SmallHoleFillerWidget::showEvent ( QShowEvent * event )
+void SmallHoleFillerWidget::showEvent(QShowEvent* event)
 {
   if(this->ImagePixmapItem)
     {
@@ -77,7 +77,7 @@ void SmallHoleFillerWidget::showEvent ( QShowEvent * event )
     }
 }
 
-void SmallHoleFillerWidget::resizeEvent ( QResizeEvent * event )
+void SmallHoleFillerWidget::resizeEvent(QResizeEvent* event)
 {
   if(this->ImagePixmapItem)
     {
@@ -96,7 +96,7 @@ void SmallHoleFillerWidget::on_btnFill_clicked()
 
   QImage qimageImage = HelpersQt::GetQImageRGBA<ImageType>(this->Result);
   this->ResultPixmapItem = this->Scene->addPixmap(QPixmap::fromImage(qimageImage));
-  this->graphicsView->fitInView(this->ResultPixmapItem);
+  this->graphicsView->fitInView(this->ResultPixmapItem, Qt::KeepAspectRatio);
   this->ResultPixmapItem->setVisible(this->chkShowOutput->isChecked());
 }
 
