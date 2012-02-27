@@ -16,6 +16,15 @@
  *
  *=========================================================================*/
 
+#ifndef SmallHoleFiller_HPP
+#define SmallHoleFiller_HPP
+
+#include "SmallHoleFiller.h" // Appease syntax parser
+
+// Custom
+#include "Helpers.h"
+
+// ITK
 #include "itkImageFileWriter.h" // For intermediate debugging output
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
@@ -25,34 +34,48 @@
 template <typename TImage>
 SmallHoleFiller<TImage>::SmallHoleFiller()
 {
+  SharedConstructor();
+}
+
+template <typename TImage>
+SmallHoleFiller<TImage>::SmallHoleFiller(TImage* const image, MaskImageType* const mask)
+{
+  SharedConstructor();
+  SetImage(image);
+  SetMask(mask);
+}
+
+template <typename TImage>
+void SmallHoleFiller<TImage>::SharedConstructor()
+{
   //this->HolePixel = itk::NumericTraits< typename TImage::PixelType >::Zero;
   this->Image = NULL;
   this->Output = NULL;
-  
+
 //   this->Mask = NULL;
 //   this->OriginalMask = NULL;
   this->Mask = MaskImageType::New();
   this->OriginalMask = MaskImageType::New();
-  
+
   this->WriteIntermediateOutput = false;
 }
 
 template <typename TImage>
-void SmallHoleFiller<TImage>::SetImage(typename TImage::Pointer image)
+void SmallHoleFiller<TImage>::SetImage(TImage* const image)
 {
   this->Image = image;
   this->Output = TImage::New();
 }
 
 template <typename TImage>
-void SmallHoleFiller<TImage>::SetMask(MaskImageType::Pointer mask)
+void SmallHoleFiller<TImage>::SetMask(MaskImageType* const mask)
 {
-  DeepCopy<MaskImageType>(mask, this->OriginalMask);
-  DeepCopy<MaskImageType>(mask, this->Mask);
+  Helpers::DeepCopy(mask, this->OriginalMask.GetPointer());
+  Helpers::DeepCopy(mask, this->Mask.GetPointer());
 }
 
 template <typename TImage>
-void SmallHoleFiller<TImage>::SetHolePixel(typename TImage::PixelType pixel)
+void SmallHoleFiller<TImage>::SetHolePixel(const typename TImage::PixelType& pixel)
 {
   this->HolePixel = pixel;
 }
@@ -73,7 +96,7 @@ void SmallHoleFiller<TImage>::Fill()
     }
 
   // Initialize by setting the output image to the input image.
-  DeepCopy<TImage>(this->Image, this->Output);
+  Helpers::DeepCopy(this->Image.GetPointer(), this->Output.GetPointer());
   unsigned int numberOfIterations = 0;
   while(HasEmptyPixels())
     {
@@ -115,7 +138,7 @@ void SmallHoleFiller<TImage>::Iterate()
 {
   // Make a copy of the current mask. We use this to determine which pixels were holes at the beginning of this iteration.
   MaskImageType::Pointer previousMask = MaskImageType::New();
-  DeepCopy<MaskImageType>(this->Mask, previousMask);
+  Helpers::DeepCopy(this->Mask.GetPointer(), previousMask.GetPointer());
   
   // Traverse the image. When a pixel is encountered that is a hole, fill it with the average of its non-hole neighbors.
   // Do not mark pixels filled on this iteration as known. This will result in a less accurate filling, as it favors the colors
@@ -136,7 +159,8 @@ void SmallHoleFiller<TImage>::Iterate()
     {
     if(ShouldBeFilled(previousMaskNeighborhoodIterator.GetCenterPixel()))
       {
-      typename TImage::PixelType pixelSum = itk::NumericTraits< typename TImage::PixelType >::Zero;
+      typename TImage::PixelType pixelSum = itk::NumericTraits< typename TImage::PixelType >::ZeroValue(Image->GetPixel(previousMaskNeighborhoodIterator.GetIndex()));
+
       // Loop over the 8-neighorhood
       unsigned int validPixels = 0;
       for(unsigned int i = 0; i < 9; i++)
@@ -235,21 +259,4 @@ void SmallHoleFiller<TImage>::GenerateMaskFromImage()
     }
 }
 
-///////// This is not a member function /////////////
-/** Copy the input to the output*/
-template<typename TImage>
-void DeepCopy(typename TImage::Pointer input, typename TImage::Pointer output)
-{
-  output->SetRegions(input->GetLargestPossibleRegion());
-  output->Allocate();
-
-  itk::ImageRegionConstIterator<TImage> inputIterator(input, input->GetLargestPossibleRegion());
-  itk::ImageRegionIterator<TImage> outputIterator(output, output->GetLargestPossibleRegion());
-
-  while(!inputIterator.IsAtEnd())
-    {
-    outputIterator.Set(inputIterator.Get());
-    ++inputIterator;
-    ++outputIterator;
-    }
-}
+#endif

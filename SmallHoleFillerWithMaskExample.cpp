@@ -26,7 +26,7 @@
 int main (int argc, char *argv[])
 {
   // Verify arguments
-  if(argc != 3)
+  if(argc != 4)
     {
     std::cerr << "Required arguments: InputImageFileName MaskFileName OutputFileName" << std::endl;
     return EXIT_FAILURE;
@@ -39,6 +39,7 @@ int main (int argc, char *argv[])
 
   // Output arguments
   std::cout << "Input image: " << inputImageFileName << std::endl;
+  std::cout << "Input mask: " << inputMaskFileName << std::endl;
   std::cout << "Output image: " << outputFileName << std::endl;
 
   //typedef itk::Image<unsigned char, 2> ImageType;
@@ -57,10 +58,11 @@ int main (int argc, char *argv[])
   maskReader->SetFileName(inputMaskFileName);
   maskReader->Update();
 
-  SmallHoleFiller<RGBFloatImageType> smallHoleFiller;
-  smallHoleFiller.SetImage(imageReader->GetOutput());
-  smallHoleFiller.SetMask(maskReader->GetOutput());
+//   SmallHoleFiller<RGBFloatImageType> smallHoleFiller;
+//   smallHoleFiller.SetImage(imageReader->GetOutput());
+//   smallHoleFiller.SetMask(maskReader->GetOutput());
 
+  SmallHoleFiller<RGBFloatImageType> smallHoleFiller(imageReader->GetOutput(), maskReader->GetOutput());
   smallHoleFiller.Fill();
 
   typedef itk::RGBPixel<unsigned char> RGBUCharPixelType;

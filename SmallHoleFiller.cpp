@@ -58,13 +58,10 @@ int main (int argc, char *argv[])
   std::cout << "Output image: " << outputFileName << std::endl;
   std::cout << "Extension: " << extension << std::endl;
 
-  
-  
   typedef itk::ImageFileReader<MaskImageType> MaskReaderType;
   MaskReaderType::Pointer maskReader = MaskReaderType::New();
   maskReader->SetFileName(maskFileName);
   maskReader->Update();
-  
   
   typedef itk::VectorImage<float, 2> FloatVectorImageType;
   typedef itk::Image<float, 2> FloatScalarImageType;
@@ -79,7 +76,6 @@ int main (int argc, char *argv[])
     {
     Fill<FloatVectorImageType, FloatScalarImageType>(inputFileName, outputFileName, maskReader->GetOutput());
     }
-
 
   return EXIT_SUCCESS;
 }

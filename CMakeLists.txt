@@ -5,6 +5,9 @@ SET( INSTALL_DIR ${CMAKE_INSTALL_PREFIX} )
 
 PROJECT(SmallHoleFiller)
 
+# This is so subdirectories can include files in this directory with #include "file.h"
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE( ${USE_ITK_FILE} )
 # 
@@ -13,10 +16,12 @@ INCLUDE( ${USE_ITK_FILE} )
 # INSTALL( TARGETS SmallHoleFillerExample RUNTIME DESTINATION ${INSTALL_DIR} )
 # 
 # 
-# add_executable(SmallHoleFillerWithMaskExample SmallHoleFillerWithMaskExample.cpp)
-# TARGET_LINK_LIBRARIES(SmallHoleFillerWithMaskExample ${ITK_LIBRARIES})
-# INSTALL( TARGETS SmallHoleFillerWithMaskExample RUNTIME DESTINATION ${INSTALL_DIR} )
+add_executable(SmallHoleFillerWithMaskExample SmallHoleFillerWithMaskExample.cpp)
+TARGET_LINK_LIBRARIES(SmallHoleFillerWithMaskExample ${ITK_LIBRARIES})
+INSTALL( TARGETS SmallHoleFillerWithMaskExample RUNTIME DESTINATION ${INSTALL_DIR} )
 
-add_executable(SmallHoleFiller SmallHoleFiller.cpp)
+add_executable(SmallHoleFiller SmallHoleFiller.cpp Mask.cpp)
 TARGET_LINK_LIBRARIES(SmallHoleFiller ${ITK_LIBRARIES})
 INSTALL( TARGETS SmallHoleFiller RUNTIME DESTINATION ${INSTALL_DIR} )
+
+add_subdirectory(GUI)

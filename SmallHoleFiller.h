@@ -25,21 +25,24 @@ template<typename TImage>
 class SmallHoleFiller
 {
 public:
+  // Types
+  typedef itk::Image<unsigned char, 2> MaskImageType;
+    
   // Constructor
   SmallHoleFiller();
 
-  typedef itk::Image<unsigned char, 2> MaskImageType;
-  
+  SmallHoleFiller(TImage* const image, MaskImageType* const mask);
+
   // Inputs
-  void SetImage(typename TImage::Pointer image);
+  void SetImage(TImage* const image);
 
   // In this class, non-zero pixels indicate valid pixels, while zero pixels indicate pixels to be filled.
-  void SetMask(MaskImageType::Pointer mask);
+  void SetMask(MaskImageType* const mask);
   
   typename MaskImageType::Pointer GetMask();
 
   void GenerateMaskFromImage();
-  void SetHolePixel(typename TImage::PixelType pixel);
+  void SetHolePixel(const typename TImage::PixelType& pixel);
   
   // Outputs
   typename TImage::Pointer GetOutput();
@@ -53,12 +56,17 @@ public:
   // This function returns true if any of the Output pixels match the HolePixel. This indicates there is more work to be done.
   bool HasEmptyPixels();
 
-  void SetWriteIntermediateOutput(bool);
+  void SetWriteIntermediateOutput(const bool);
 
-  bool ShouldBeFilled(unsigned char);
-  bool IsValid(unsigned char);
+  /** This function returns true for pixels that should be filled */
+  bool ShouldBeFilled(const unsigned char);
+  
+  bool IsValid(const unsigned char);
   
 private:
+
+  void SharedConstructor();
+  
   // The input image.
   typename TImage::Pointer Image;
 
@@ -75,11 +83,6 @@ private:
   
 };
 
-// This function copies the data from 'input' to 'output'
-template<typename TImage>
-void DeepCopy(typename TImage::Pointer input, typename TImage::Pointer output);
-  
-  
 #include "SmallHoleFiller.hxx"
 
 #endif
