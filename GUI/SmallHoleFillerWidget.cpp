@@ -175,22 +175,32 @@ void SmallHoleFillerWidget::OpenImageAndMask(const std::string& imageFileName, c
   this->MaskImagePixmapItem->setVisible(this->chkShowMask->isChecked());
 }
 
+void SmallHoleFillerWidget::on_actionOpenMask_activated()
+{
+  std::cout << "on_actionOpenMask_activated" << std::endl;
+
+  QString filename = QFileDialog::getOpenFileName(this, "Open Mask", "", "Mask Files (*.mha)");
+
+  if(filename.isEmpty())
+    {
+    return;
+    }
+
+  OpenMask(filename.toStdString());
+}
+
 void SmallHoleFillerWidget::on_actionOpenImage_activated()
 {
   std::cout << "on_actionOpenImage_activated" << std::endl;
-  std::vector<std::string> namedImages;
-  namedImages.push_back("Image");
-  namedImages.push_back("Mask");
 
-//   if(result) // The user clicked 'ok'
-//     {
-//     OpenImageAndMask(fileSelector->GetNamedImageFileName("Image"), fileSelector->GetNamedImageFileName("Mask"));
-//     }
-//   else
-//     {
-//     // std::cout << "User clicked cancel." << std::endl;
-//     // The user clicked 'cancel' or closed the dialog, do nothing.
-//     }
+  QString filename = QFileDialog::getOpenFileName(this, "Open Image", "", "Image Files (*.mha)");
+
+  if(filename.isEmpty())
+    {
+    return;
+    }
+
+  OpenImage(filename.toStdString());
 }
 
 void SmallHoleFillerWidget::on_chkShowInput_clicked()

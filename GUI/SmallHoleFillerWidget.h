@@ -44,6 +44,7 @@ public:
 public slots:
 
   void on_actionOpenImage_activated();
+  void on_actionOpenMask_activated();
   void on_actionSaveResult_activated();
   
   void on_btnFill_clicked();
