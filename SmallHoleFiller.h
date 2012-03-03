@@ -19,6 +19,10 @@
 #ifndef SmallHoleFiller_H
 #define SmallHoleFiller_H
 
+// Custom
+#include "Mask.h"
+
+// ITK
 #include "itkImage.h"
 
 template<typename TImage>
@@ -26,8 +30,8 @@ class SmallHoleFiller
 {
 public:
   // Types
-  typedef itk::Image<unsigned char, 2> MaskImageType;
-    
+  typedef Mask MaskImageType;
+
   // Constructor
   SmallHoleFiller();
 
@@ -36,14 +40,14 @@ public:
   // Inputs
   void SetImage(TImage* const image);
 
-  // In this class, non-zero pixels indicate valid pixels, while zero pixels indicate pixels to be filled.
+  /** In this class, non-zero pixels indicate valid pixels, while zero pixels indicate pixels to be filled. */
   void SetMask(MaskImageType* const mask);
   
   typename MaskImageType::Pointer GetMask();
 
-  void GenerateMaskFromImage();
-  void SetHolePixel(const typename TImage::PixelType& pixel);
-  
+  /** If a mask is not provided, a specific pixel value will be considered the hole. */
+  void GenerateMaskFromImage(const typename TImage::PixelType& pixel);
+
   // Outputs
   typename TImage::Pointer GetOutput();
   
@@ -58,11 +62,6 @@ public:
 
   void SetWriteIntermediateOutput(const bool);
 
-  /** This function returns true for pixels that should be filled */
-  bool ShouldBeFilled(const unsigned char);
-  
-  bool IsValid(const unsigned char);
-  
 private:
 
   void SharedConstructor();
@@ -70,19 +69,16 @@ private:
   // The input image.
   typename TImage::Pointer Image;
 
-  MaskImageType::Pointer Mask;
+  MaskImageType::Pointer MaskImage;
   MaskImageType::Pointer OriginalMask;
-  
-  // The intermediate and eventually output image.
+
+  /** The intermediate and eventually output image.*/
   typename TImage::Pointer Output;
-  
-  // The value of a pixel to be considered a hole (to be filled).
-  typename TImage::PixelType HolePixel;
-  
+
   bool WriteIntermediateOutput;
-  
+
 };
 
-#include "SmallHoleFiller.hxx"
+#include "SmallHoleFiller.hpp"
 
 #endif

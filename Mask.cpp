@@ -185,7 +185,7 @@ void Mask::OutputMembers() const
   std::cout << "ValidValue: " << static_cast<unsigned int>(this->ValidValue) << std::endl;
 }
 
-void Mask::DeepCopyFrom(const Mask::Pointer inputMask)
+void Mask::DeepCopyFrom(const Mask* const inputMask)
 {
   this->SetRegions(inputMask->GetLargestPossibleRegion());
   this->Allocate();
@@ -223,3 +223,72 @@ void Mask::ExpandHole()
   this->DeepCopyFrom(expandMaskFilter->GetOutput());
 
 }
+
+unsigned int Mask::CountHoles()
+{
+  itk::ImageRegionConstIteratorWithIndex<Mask> iterator(this, this->GetLargestPossibleRegion());
+
+  unsigned int holeCounter = 0;
+  while(!iterator.IsAtEnd())
+    {
+    if(this->IsHole(iterator.GetIndex()))
+      {
+      holeCounter++;
+      }
+
+    ++iterator;
+    }
+  return holeCounter;
+}
+
+unsigned int Mask::CountValidPixels()
+{
+  itk::ImageRegionConstIteratorWithIndex<Mask> iterator(this, this->GetLargestPossibleRegion());
+
+  unsigned int validCounter = 0;
+  while(!iterator.IsAtEnd())
+    {
+    if(this->IsValid(iterator.GetIndex()))
+      {
+      validCounter++;
+      }
+
+    ++iterator;
+    }
+  return validCounter;
+}
+
+bool Mask::IsHoleValue(const unsigned char value) const
+{
+  if(value == this->HoleValue)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+bool Mask::IsValidValue(const unsigned char value) const
+{
+  if(value == this->ValidValue)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+void Mask::MarkAsValid(const itk::Index<2>& pixel)
+{
+  this->SetPixel(pixel, this->ValidValue);
+}
+
+void Mask::MarkAsHole(const itk::Index<2>& pixel)
+{
+  this->SetPixel(pixel, this->HoleValue);
+}
+  

@@ -10,18 +10,17 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE( ${USE_ITK_FILE} )
-# 
-# add_executable(SmallHoleFillerExample SmallHoleFillerExample.cpp)
-# TARGET_LINK_LIBRARIES(SmallHoleFillerExample ${ITK_LIBRARIES})
-# INSTALL( TARGETS SmallHoleFillerExample RUNTIME DESTINATION ${INSTALL_DIR} )
-# 
-# 
-add_executable(SmallHoleFillerWithMaskExample SmallHoleFillerWithMaskExample.cpp)
-TARGET_LINK_LIBRARIES(SmallHoleFillerWithMaskExample ${ITK_LIBRARIES})
-INSTALL( TARGETS SmallHoleFillerWithMaskExample RUNTIME DESTINATION ${INSTALL_DIR} )
 
-add_executable(SmallHoleFiller SmallHoleFiller.cpp Mask.cpp)
-TARGET_LINK_LIBRARIES(SmallHoleFiller ${ITK_LIBRARIES})
-INSTALL( TARGETS SmallHoleFiller RUNTIME DESTINATION ${INSTALL_DIR} )
+add_executable(FillSmallHolesAllComponents FillSmallHolesAllComponents.cpp Mask.cpp)
+TARGET_LINK_LIBRARIES(FillSmallHolesAllComponents ${ITK_LIBRARIES})
+INSTALL( TARGETS FillSmallHolesAllComponents RUNTIME DESTINATION ${INSTALL_DIR} )
 
-add_subdirectory(GUI)
+add_executable(FillSmallHolesRGB FillSmallHolesRGB.cpp Mask.cpp)
+TARGET_LINK_LIBRARIES(FillSmallHolesRGB ${ITK_LIBRARIES})
+INSTALL( TARGETS FillSmallHolesRGB RUNTIME DESTINATION ${INSTALL_DIR} )
+
+add_executable(FillSmallHolesScalar FillSmallHolesScalar.cpp Mask.cpp)
+TARGET_LINK_LIBRARIES(FillSmallHolesScalar ${ITK_LIBRARIES})
+INSTALL( TARGETS FillSmallHolesScalar RUNTIME DESTINATION ${INSTALL_DIR} )
+
+#add_subdirectory(GUI)

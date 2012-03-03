@@ -18,6 +18,9 @@
 
 #include "SmallHoleFiller.h"
 
+// Custom
+#include "Mask.h"
+
 // ITK
 #include "itkCastImageFilter.h"
 #include "itkImageFileReader.h"
@@ -44,38 +47,31 @@ int main (int argc, char *argv[])
 
   //typedef itk::Image<unsigned char, 2> ImageType;
 
-  typedef itk::RGBPixel<float> RGBFloatPixelType; // We must use float pixels so that the averaging operation does not overflow
-  typedef itk::Image<RGBFloatPixelType> RGBFloatImageType;
+  typedef itk::Image<float> ImageType;
 
-  typedef itk::ImageFileReader<RGBFloatImageType> ImageReaderType;
+  typedef itk::ImageFileReader<ImageType> ImageReaderType;
   ImageReaderType::Pointer imageReader = ImageReaderType::New();
   imageReader->SetFileName(inputImageFileName);
   imageReader->Update();
 
-  typedef itk::Image<unsigned char, 2> MaskImageType;
+  //typedef itk::Image<unsigned char, 2> MaskImageType;
+  typedef Mask MaskImageType;
   typedef itk::ImageFileReader<MaskImageType> MaskReaderType;
   MaskReaderType::Pointer maskReader = MaskReaderType::New();
   maskReader->SetFileName(inputMaskFileName);
   maskReader->Update();
 
-//   SmallHoleFiller<RGBFloatImageType> smallHoleFiller;
-//   smallHoleFiller.SetImage(imageReader->GetOutput());
-//   smallHoleFiller.SetMask(maskReader->GetOutput());
+  std::cout << "There are " << maskReader->GetOutput()->CountHoles() << " holes." << std::endl;
+  std::cout << "There are " << maskReader->GetOutput()->CountValidPixels() << " valid pixels." << std::endl;
 
-  SmallHoleFiller<RGBFloatImageType> smallHoleFiller(imageReader->GetOutput(), maskReader->GetOutput());
+  SmallHoleFiller<ImageType> smallHoleFiller(imageReader->GetOutput(), maskReader->GetOutput());
+  //smallHoleFiller.SetWriteIntermediateOutput(true);
   smallHoleFiller.Fill();
 
-  typedef itk::RGBPixel<unsigned char> RGBUCharPixelType;
-  typedef itk::Image<RGBUCharPixelType> RGBUCharImageType;
-  typedef itk::CastImageFilter<RGBFloatImageType, RGBUCharImageType> CastFilterType;
-  CastFilterType::Pointer castFilter = CastFilterType::New();
-  castFilter->SetInput(smallHoleFiller.GetOutput());
-  castFilter->Update();
-
-  typedef  itk::ImageFileWriter< RGBUCharImageType  > WriterType;
+  typedef  itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputFileName);
-  writer->SetInput(castFilter->GetOutput());
+  writer->SetInput(smallHoleFiller.GetOutput());
   writer->Update();
 
   return EXIT_SUCCESS;

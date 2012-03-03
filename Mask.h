@@ -69,17 +69,25 @@ public:
   { return NeighborhoodAccessorFunctorType(); }
 
   bool IsHole(const itk::Index<2>& index) const;
+  bool IsHoleValue(const unsigned char value) const;
 
   bool IsValid(const itk::ImageRegion<2>& region) const;
-
   bool IsValid(const itk::Index<2>& index) const;
+  bool IsValidValue(const unsigned char value) const;
 
   void Invert();
 
   void Cleanup();
 
+  unsigned int CountHoles();
+
+  unsigned int CountValidPixels();
+  
   void ExpandHole();
 
+  void MarkAsValid(const itk::Index<2>& pixel);
+  void MarkAsHole(const itk::Index<2>& pixel);
+  
   void SetHoleValue(const unsigned char value);
 
   void SetValidValue(const unsigned char value);
@@ -90,7 +98,7 @@ public:
 
   void OutputMembers() const;
 
-  void DeepCopyFrom(const Mask::Pointer inputMask);
+  void DeepCopyFrom(const Mask* const inputMask);
 
   template<typename TImage, typename TColor>
   void ApplyToImage(const typename TImage::Pointer image, const TColor& color);
