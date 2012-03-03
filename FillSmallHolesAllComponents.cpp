@@ -63,6 +63,8 @@ int main (int argc, char *argv[])
   MaskReaderType::Pointer maskReader = MaskReaderType::New();
   maskReader->SetFileName(maskFileName);
   maskReader->Update();
+  std::cout << "Valid value " << static_cast<int>(maskReader->GetOutput()->GetValidValue()) << std::endl;
+  std::cout << "Hole value " << static_cast<int>(maskReader->GetOutput()->GetHoleValue()) << std::endl;
   
   typedef itk::VectorImage<float, 2> FloatVectorImageType;
   typedef itk::Image<float, 2> FloatScalarImageType;
@@ -93,7 +95,7 @@ std::vector<std::string> split(const std::string &s, char delim)
     }
     return elems;
 }
- 
+
 std::string GetExtension(const std::string& filename)
 {
   std::vector<std::string> words = split(filename, '.');
@@ -103,20 +105,17 @@ std::string GetExtension(const std::string& filename)
 template <typename TVectorImage, typename TScalarImage>
 void Fill(const std::string& inputFileName, const std::string& outputFileName, MaskImageType* const mask)
 {
-  
   typedef itk::ImageFileReader<TVectorImage> ImageReaderType;
   typename ImageReaderType::Pointer imageReader = ImageReaderType::New();
   imageReader->SetFileName(inputFileName);
   imageReader->Update();
-  
+
   typedef itk::VectorIndexSelectionCastImageFilter<TVectorImage, TScalarImage> DisassemblerType;
-  
+
   typedef itk::ImageToVectorImageFilter<TScalarImage> ReassemblerType;
   typename ReassemblerType::Pointer reassembler = ReassemblerType::New();
-  
+
   // Perform the filling on each channel independently
-  //std::vector<PoissonEditing<TScalarImage> > poissonFilters;//(imageReader->GetOutput()->GetNumberOfComponentsPerPixel());
-    
   for(unsigned int component = 0; component < imageReader->GetOutput()->GetNumberOfComponentsPerPixel(); component++)
     {
     std::cout << "Component " << component << std::endl;
@@ -143,11 +142,10 @@ void Fill(const std::string& inputFileName, const std::string& outputFileName, M
     writer->SetInput(poissonFilters[component].GetOutput());
     writer->Update();*/
     }
-  
-  reassembler->Update();
-  
 
-  typedef  itk::ImageFileWriter< TVectorImage  > WriterType;
+  reassembler->Update();
+
+  typedef  itk::ImageFileWriter<TVectorImage> WriterType;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputFileName);
   writer->SetInput(reassembler->GetOutput());

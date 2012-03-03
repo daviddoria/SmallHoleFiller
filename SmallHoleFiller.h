@@ -32,12 +32,13 @@ public:
   // Types
   typedef Mask MaskImageType;
 
-  // Constructor
+  /** Constructor */
   SmallHoleFiller();
 
+  /** Constructor */
   SmallHoleFiller(TImage* const image, MaskImageType* const mask);
 
-  // Inputs
+  /** Set the image to fill */
   void SetImage(TImage* const image);
 
   /** In this class, non-zero pixels indicate valid pixels, while zero pixels indicate pixels to be filled. */
@@ -49,15 +50,15 @@ public:
   void GenerateMaskFromImage(const typename TImage::PixelType& pixel);
 
   // Outputs
-  typename TImage::Pointer GetOutput();
+  TImage* GetOutput();
   
-  // This is the main loop. It simply calls Iterate() until complete.
+  /** This is the main loop. It simply calls Iterate() until complete.*/
   void Fill();
   
-  // This is the core functionality.
+  /** This is the core functionality.*/
   void Iterate();
   
-  // This function returns true if any of the Output pixels match the HolePixel. This indicates there is more work to be done.
+  /** This function returns true if any of the Output pixels match the HolePixel. This indicates there is more work to be done. */
   bool HasEmptyPixels();
 
   void SetWriteIntermediateOutput(const bool);

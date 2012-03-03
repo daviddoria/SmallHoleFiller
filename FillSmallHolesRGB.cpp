@@ -45,8 +45,6 @@ int main (int argc, char *argv[])
   std::cout << "Input mask: " << inputMaskFileName << std::endl;
   std::cout << "Output image: " << outputFileName << std::endl;
 
-  //typedef itk::Image<unsigned char, 2> ImageType;
-
   typedef itk::RGBPixel<float> RGBFloatPixelType; // We must use float pixels so that the averaging operation does not overflow
   typedef itk::Image<RGBFloatPixelType> RGBFloatImageType;
 
@@ -77,7 +75,7 @@ int main (int argc, char *argv[])
   {
   typedef  itk::ImageFileWriter<RGBFloatImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName("test.mha");
+  writer->SetFileName("float.mha");
   writer->SetInput(smallHoleFiller.GetOutput());
   writer->Update();
   }

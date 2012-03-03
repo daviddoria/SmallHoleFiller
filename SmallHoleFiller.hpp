@@ -72,12 +72,13 @@ template <typename TImage>
 void SmallHoleFiller<TImage>::SetMask(MaskImageType* const mask)
 {
   Helpers::DeepCopy(mask, this->OriginalMask.GetPointer());
-  Helpers::DeepCopy(mask, this->MaskImage.GetPointer());
+  //Helpers::DeepCopy(mask, this->MaskImage.GetPointer());
+  this->MaskImage->DeepCopyFrom(mask);
 }
 
 
 template <typename TImage>
-typename TImage::Pointer SmallHoleFiller<TImage>::GetOutput()
+TImage* SmallHoleFiller<TImage>::GetOutput()
 {
   return this->Output;
 }
@@ -101,7 +102,7 @@ void SmallHoleFiller<TImage>::Fill()
   
     if(this->WriteIntermediateOutput)
       {
-      typedef  itk::ImageFileWriter< TImage  > WriterType;
+      typedef itk::ImageFileWriter<TImage> WriterType;
       typename WriterType::Pointer writer = WriterType::New();
       std::stringstream ss;
       ss << "intermediate_" << numberOfIterations << ".mha";
@@ -121,7 +122,7 @@ void SmallHoleFiller<TImage>::Fill()
       maskWriter->Update();
       }
     }
-    
+
   std::cout << "Filling completed in " << numberOfIterations << " iterations." << std::endl;
 }
 
@@ -159,12 +160,14 @@ void SmallHoleFiller<TImage>::Iterate()
     {
     if(MaskImage->IsHoleValue(previousMaskNeighborhoodIterator.GetCenterPixel()))
       {
-      typename TImage::PixelType pixelSum =
-             itk::NumericTraits< typename TImage::PixelType >::ZeroValue(
+      // Set the initial sum to zero
+      typedef typename itk::NumericTraits<typename TImage::PixelType>::FloatType FloatPixelType;
+      FloatPixelType pixelSum =
+             itk::NumericTraits<FloatPixelType>::ZeroValue(
              Image->GetPixel(previousMaskNeighborhoodIterator.GetIndex()));
 
       // Loop over the 8-neighorhood
-      unsigned int validPixels = 0;
+      unsigned int numberOfValidPixels = 0;
       for(unsigned int i = 0; i < 9; i++)
 	{
 	if(i == 4) // this is the center (current) pixel, so skip it
@@ -177,18 +180,19 @@ void SmallHoleFiller<TImage>::Iterate()
 	  {
 	  if(MaskImage->IsValidValue(currentPixelValidity))
 	    {
-	    validPixels++;
+	    numberOfValidPixels++;
 	    pixelSum += outputNeighborhoodIterator.GetPixel(i);
 	    }
 	  }
 	} // end 8-connected neighbor for
 
       // There were valid neighbors, so fill the output pixel and mark the mask pixel as filled.
-      if(validPixels > 0)
+      if(numberOfValidPixels > 0)
         {
         //typename TImage::PixelType pixelAverage = static_cast<typename TImage::PixelType>(pixelSum / validPixels);
         // Multiply by the reciprocal because operator/ is not defined for all types.
-        typename TImage::PixelType pixelAverage = static_cast<typename TImage::PixelType>(pixelSum * (1.0/ validPixels));
+        typename TImage::PixelType pixelAverage =
+          static_cast<typename TImage::PixelType>(pixelSum * (1.0/ static_cast<float>(numberOfValidPixels)));
 
         outputNeighborhoodIterator.SetCenterPixel(pixelAverage);
 
