@@ -19,8 +19,8 @@
 #ifndef SmallHoleFiller_H
 #define SmallHoleFiller_H
 
-// Custom
-#include "Mask.h"
+// Submodules
+#include "Mask/Mask.h"
 
 // ITK
 #include "itkImage.h"
@@ -30,21 +30,21 @@ class SmallHoleFiller
 {
 public:
   // Types
-  typedef Mask MaskImageType;
+  //typedef Mask MaskImageType;
 
   /** Constructor */
   SmallHoleFiller();
 
   /** Constructor */
-  SmallHoleFiller(TImage* const image, MaskImageType* const mask);
+  SmallHoleFiller(TImage* const image, Mask* const mask);
 
   /** Set the image to fill */
   void SetImage(TImage* const image);
 
   /** In this class, non-zero pixels indicate valid pixels, while zero pixels indicate pixels to be filled. */
-  void SetMask(MaskImageType* const mask);
+  void SetMask(const Mask* const mask);
   
-  typename MaskImageType::Pointer GetMask();
+  Mask* GetMask();
 
   /** If a mask is not provided, a specific pixel value will be considered the hole. */
   void GenerateMaskFromImage(const typename TImage::PixelType& pixel);
@@ -70,8 +70,8 @@ private:
   // The input image.
   typename TImage::Pointer Image;
 
-  MaskImageType::Pointer MaskImage;
-  MaskImageType::Pointer OriginalMask;
+  Mask::Pointer MaskImage;
+  Mask::Pointer OriginalMask;
 
   /** The intermediate and eventually output image.*/
   typename TImage::Pointer Output;

@@ -19,7 +19,7 @@
 #include "SmallHoleFiller.h"
 
 // Custom
-#include "Mask.h"
+#include "Mask/Mask.h"
 
 // ITK
 #include "itkCastImageFilter.h"
@@ -45,7 +45,8 @@ int main (int argc, char *argv[])
   std::cout << "Input mask: " << inputMaskFileName << std::endl;
   std::cout << "Output image: " << outputFileName << std::endl;
 
-  typedef itk::RGBPixel<float> RGBFloatPixelType; // We must use float pixels so that the averaging operation does not overflow
+  // We must use float pixels so that the averaging operation does not overflow
+  typedef itk::RGBPixel<float> RGBFloatPixelType; 
   typedef itk::Image<RGBFloatPixelType> RGBFloatImageType;
 
   typedef itk::ImageFileReader<RGBFloatImageType> ImageReaderType;
@@ -54,15 +55,15 @@ int main (int argc, char *argv[])
   imageReader->Update();
 
   //typedef itk::Image<unsigned char, 2> MaskImageType;
-  typedef Mask MaskImageType;
-  typedef itk::ImageFileReader<MaskImageType> MaskReaderType;
+  //typedef Mask MaskImageType;
+  typedef itk::ImageFileReader<Mask> MaskReaderType;
   MaskReaderType::Pointer maskReader = MaskReaderType::New();
   maskReader->SetFileName(inputMaskFileName);
   maskReader->Update();
   maskReader->GetOutput()->SetHoleValue(255);
   maskReader->GetOutput()->SetValidValue(0);
 
-  std::cout << "There are " << maskReader->GetOutput()->CountHoles() << " holes." << std::endl;
+  std::cout << "There are " << maskReader->GetOutput()->CountHolePixels() << " holes." << std::endl;
   std::cout << "There are " << maskReader->GetOutput()->CountValidPixels() << " valid pixels." << std::endl;
 
 //   SmallHoleFiller<RGBFloatImageType> smallHoleFiller;

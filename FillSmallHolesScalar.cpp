@@ -18,8 +18,8 @@
 
 #include "SmallHoleFiller.h"
 
-// Custom
-#include "Mask.h"
+// Submodules
+#include "Mask/Mask.h"
 
 // ITK
 #include "itkCastImageFilter.h"
@@ -55,13 +55,13 @@ int main (int argc, char *argv[])
   imageReader->Update();
 
   //typedef itk::Image<unsigned char, 2> MaskImageType;
-  typedef Mask MaskImageType;
-  typedef itk::ImageFileReader<MaskImageType> MaskReaderType;
+  //typedef Mask MaskImageType;
+  typedef itk::ImageFileReader<Mask> MaskReaderType;
   MaskReaderType::Pointer maskReader = MaskReaderType::New();
   maskReader->SetFileName(inputMaskFileName);
   maskReader->Update();
 
-  std::cout << "There are " << maskReader->GetOutput()->CountHoles() << " holes." << std::endl;
+  std::cout << "There are " << maskReader->GetOutput()->CountHolePixels() << " holes." << std::endl;
   std::cout << "There are " << maskReader->GetOutput()->CountValidPixels() << " valid pixels." << std::endl;
 
   SmallHoleFiller<ImageType> smallHoleFiller(imageReader->GetOutput(), maskReader->GetOutput());

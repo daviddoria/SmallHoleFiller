@@ -58,8 +58,7 @@ int main (int argc, char *argv[])
 // 
 //   smallHoleFiller.GenerateMaskFromImage();
 //   
-//   itk::Image<unsigned char, 2> MaskImageType;
-//   typedef  itk::ImageFileWriter< MaskImageType > WriterType;
+//   typedef  itk::ImageFileWriter<Mask> WriterType;
 //   WriterType::Pointer writer = WriterType::New();
 //   writer->SetFileName(outputFileName);
 //   writer->SetInput(smallHoleFiller.GetMask());

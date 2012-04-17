@@ -21,8 +21,8 @@
 
 #include "SmallHoleFiller.h" // Appease syntax parser
 
-// Custom
-#include "Helpers.h"
+// Submodules
+#include "ITKHelpers/ITKHelpers.h"
 
 // ITK
 #include "itkImageFileWriter.h" // For intermediate debugging output
@@ -39,7 +39,7 @@ SmallHoleFiller<TImage>::SmallHoleFiller()
 }
 
 template <typename TImage>
-SmallHoleFiller<TImage>::SmallHoleFiller(TImage* const image, MaskImageType* const mask)
+SmallHoleFiller<TImage>::SmallHoleFiller(TImage* const image, Mask* const mask)
 {
   SharedConstructor();
   SetImage(image);
@@ -55,8 +55,8 @@ void SmallHoleFiller<TImage>::SharedConstructor()
 
 //   this->Mask = NULL;
 //   this->OriginalMask = NULL;
-  this->MaskImage = MaskImageType::New();
-  this->OriginalMask = MaskImageType::New();
+  this->MaskImage = Mask::New();
+  this->OriginalMask = Mask::New();
 
   this->WriteIntermediateOutput = false;
 }
@@ -69,9 +69,9 @@ void SmallHoleFiller<TImage>::SetImage(TImage* const image)
 }
 
 template <typename TImage>
-void SmallHoleFiller<TImage>::SetMask(MaskImageType* const mask)
+void SmallHoleFiller<TImage>::SetMask(const Mask* const mask)
 {
-  Helpers::DeepCopy(mask, this->OriginalMask.GetPointer());
+  ITKHelpers::DeepCopy(mask, this->OriginalMask.GetPointer());
   //Helpers::DeepCopy(mask, this->MaskImage.GetPointer());
   this->MaskImage->DeepCopyFrom(mask);
 }
@@ -92,7 +92,7 @@ void SmallHoleFiller<TImage>::Fill()
     }
 
   // Initialize by setting the output image to the input image.
-  Helpers::DeepCopy(this->Image.GetPointer(), this->Output.GetPointer());
+  ITKHelpers::DeepCopy(this->Image.GetPointer(), this->Output.GetPointer());
   unsigned int numberOfIterations = 0;
   while(HasEmptyPixels())
     {
@@ -110,7 +110,7 @@ void SmallHoleFiller<TImage>::Fill()
       writer->SetInput(this->Output);
       writer->Update();
 
-      typedef  itk::ImageFileWriter< MaskImageType > MaskWriterType;
+      typedef  itk::ImageFileWriter<Mask> MaskWriterType;
       typename MaskWriterType::Pointer maskWriter = MaskWriterType::New();
       std::stringstream ssMask;
       ssMask << "intermediateMask_" << numberOfIterations << ".png";
@@ -135,8 +135,9 @@ void SmallHoleFiller<TImage>::SetWriteIntermediateOutput(bool writeIntermediateO
 template <typename TImage>
 void SmallHoleFiller<TImage>::Iterate()
 {
-  // Make a copy of the current mask. We use this to determine which pixels were holes at the beginning of this iteration.
-  MaskImageType::Pointer previousMask = MaskImageType::New();
+  // Make a copy of the current mask. We use this to determine which pixels were holes
+  // at the beginning of this iteration.
+  Mask::Pointer previousMask = Mask::New();
   //Helpers::DeepCopy(this->MaskImage.GetPointer(), previousMask.GetPointer());
   previousMask->DeepCopyFrom(this->MaskImage.GetPointer());
   
@@ -147,14 +148,15 @@ void SmallHoleFiller<TImage>::Iterate()
   itk::Size<2> radius;
   radius.Fill(1);
   
-  itk::NeighborhoodIterator<MaskImageType> previousMaskNeighborhoodIterator(radius,
+  itk::NeighborhoodIterator<Mask> previousMaskNeighborhoodIterator(radius,
                                                                             previousMask, previousMask->GetLargestPossibleRegion());
   
   // This iterator is used to get neighbor values and set the output pixels.
-  itk::NeighborhoodIterator<TImage> outputNeighborhoodIterator(radius, this->Output, this->Output->GetLargestPossibleRegion());
+  itk::NeighborhoodIterator<TImage> outputNeighborhoodIterator(radius, this->Output,
+                                                               this->Output->GetLargestPossibleRegion());
 
   // This iterator is used to update the mask.
-  itk::ImageRegionIterator<MaskImageType> maskIterator(this->MaskImage, this->MaskImage->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<Mask> maskIterator(this->MaskImage, this->MaskImage->GetLargestPossibleRegion());
     
   while(!previousMaskNeighborhoodIterator.IsAtEnd())
     {
@@ -175,7 +177,7 @@ void SmallHoleFiller<TImage>::Iterate()
 	  continue;
 	  }
 	bool isInBounds = false;
-	MaskImageType::PixelType currentPixelValidity = previousMaskNeighborhoodIterator.GetPixel(i, isInBounds);
+	Mask::PixelType currentPixelValidity = previousMaskNeighborhoodIterator.GetPixel(i, isInBounds);
 	if(isInBounds)
 	  {
 	  if(MaskImage->IsValidValue(currentPixelValidity))
@@ -212,7 +214,8 @@ void SmallHoleFiller<TImage>::Iterate()
 template <typename TImage>
 bool SmallHoleFiller<TImage>::HasEmptyPixels()
 {
-  itk::ImageRegionConstIteratorWithIndex<MaskImageType> maskIterator(this->MaskImage, this->MaskImage->GetLargestPossibleRegion());
+  itk::ImageRegionConstIteratorWithIndex<Mask> maskIterator(this->MaskImage,
+                                                            this->MaskImage->GetLargestPossibleRegion());
  
   while(!maskIterator.IsAtEnd())
     {
@@ -226,9 +229,9 @@ bool SmallHoleFiller<TImage>::HasEmptyPixels()
 }
 
 template <typename TImage>
-typename SmallHoleFiller<TImage>::MaskImageType::Pointer SmallHoleFiller<TImage>::GetMask()
+Mask* SmallHoleFiller<TImage>::GetMask()
 {
-  return this->Mask;
+  return this->MaskImage;
 }
 
 template <typename TImage>
@@ -239,7 +242,7 @@ void SmallHoleFiller<TImage>::GenerateMaskFromImage(const typename TImage::Pixel
   this->MaskImage->FillBuffer(0);
   
   itk::ImageRegionConstIterator<TImage> imageIterator(this->Image, this->Image->GetLargestPossibleRegion());
-  itk::ImageRegionIterator<MaskImageType> maskIterator(this->MaskImage, this->MaskImage->GetLargestPossibleRegion());
+  itk::ImageRegionIterator<Mask> maskIterator(this->MaskImage, this->MaskImage->GetLargestPossibleRegion());
 
   while(!imageIterator.IsAtEnd())
     {

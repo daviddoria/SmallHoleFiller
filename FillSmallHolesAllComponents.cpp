@@ -19,7 +19,9 @@
 // This executable will fill all channels of a multi-channel image separately
 
 #include "SmallHoleFiller.h"
-#include "Mask.h"
+
+// Submodules
+#include "Mask/Mask.h"
 
 // ITK
 #include "itkCastImageFilter.h"
@@ -31,10 +33,10 @@
 
 std::string GetExtension(const std::string& filename);
 
-typedef Mask MaskImageType;
+//typedef Mask MaskImageType;
 
 template <typename TVectorImage, typename TScalarImage>
-void Fill(const std::string& inputFilename, const std::string& outputFilename, MaskImageType* const mask);
+void Fill(const std::string& inputFilename, const std::string& outputFilename, const Mask* const mask);
 
 int main (int argc, char *argv[])
 {
@@ -59,7 +61,7 @@ int main (int argc, char *argv[])
   std::cout << "Output image: " << outputFileName << std::endl;
   std::cout << "Extension: " << extension << std::endl;
 
-  typedef itk::ImageFileReader<MaskImageType> MaskReaderType;
+  typedef itk::ImageFileReader<Mask> MaskReaderType;
   MaskReaderType::Pointer maskReader = MaskReaderType::New();
   maskReader->SetFileName(maskFileName);
   maskReader->Update();
@@ -103,7 +105,7 @@ std::string GetExtension(const std::string& filename)
 }
 
 template <typename TVectorImage, typename TScalarImage>
-void Fill(const std::string& inputFileName, const std::string& outputFileName, MaskImageType* const mask)
+void Fill(const std::string& inputFileName, const std::string& outputFileName, const Mask* const mask)
 {
   typedef itk::ImageFileReader<TVectorImage> ImageReaderType;
   typename ImageReaderType::Pointer imageReader = ImageReaderType::New();
