@@ -54,21 +54,17 @@ int main (int argc, char *argv[])
   imageReader->SetFileName(inputImageFileName);
   imageReader->Update();
 
-  //typedef itk::Image<unsigned char, 2> MaskImageType;
-  //typedef Mask MaskImageType;
-  typedef itk::ImageFileReader<Mask> MaskReaderType;
-  MaskReaderType::Pointer maskReader = MaskReaderType::New();
-  maskReader->SetFileName(inputMaskFileName);
-  maskReader->Update();
+  Mask::Pointer mask = Mask::New();
+  mask->Read(inputMaskFileName);
 
-  std::cout << "There are " << maskReader->GetOutput()->CountHolePixels() << " holes." << std::endl;
-  std::cout << "There are " << maskReader->GetOutput()->CountValidPixels() << " valid pixels." << std::endl;
+  std::cout << "There are " << mask->CountHolePixels() << " holes." << std::endl;
+  std::cout << "There are " << mask->CountValidPixels() << " valid pixels." << std::endl;
 
 //   SmallHoleFiller<RGBFloatImageType> smallHoleFiller;
 //   smallHoleFiller.SetImage(imageReader->GetOutput());
 //   smallHoleFiller.SetMask(maskReader->GetOutput());
 
-  SmallHoleFiller<RGBFloatImageType> smallHoleFiller(imageReader->GetOutput(), maskReader->GetOutput());
+  SmallHoleFiller<RGBFloatImageType> smallHoleFiller(imageReader->GetOutput(), mask);
   smallHoleFiller.Fill();
 
   {
