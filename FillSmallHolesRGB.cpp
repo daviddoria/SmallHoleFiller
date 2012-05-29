@@ -57,23 +57,9 @@ int main (int argc, char *argv[])
   Mask::Pointer mask = Mask::New();
   mask->Read(inputMaskFileName);
 
-  std::cout << "There are " << mask->CountHolePixels() << " holes." << std::endl;
-  std::cout << "There are " << mask->CountValidPixels() << " valid pixels." << std::endl;
-
-//   SmallHoleFiller<RGBFloatImageType> smallHoleFiller;
-//   smallHoleFiller.SetImage(imageReader->GetOutput());
-//   smallHoleFiller.SetMask(maskReader->GetOutput());
-
   SmallHoleFiller<RGBFloatImageType> smallHoleFiller(imageReader->GetOutput(), mask);
+  //smallHoleFiller.SetWriteIntermediateOutput(true);
   smallHoleFiller.Fill();
-
-  {
-  typedef  itk::ImageFileWriter<RGBFloatImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName("float.mha");
-  writer->SetInput(smallHoleFiller.GetOutput());
-  writer->Update();
-  }
 
   typedef itk::RGBPixel<unsigned char> RGBUCharPixelType;
   typedef itk::Image<RGBUCharPixelType> RGBUCharImageType;
