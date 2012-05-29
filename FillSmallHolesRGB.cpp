@@ -60,8 +60,6 @@ int main (int argc, char *argv[])
   MaskReaderType::Pointer maskReader = MaskReaderType::New();
   maskReader->SetFileName(inputMaskFileName);
   maskReader->Update();
-  maskReader->GetOutput()->SetHoleValue(255);
-  maskReader->GetOutput()->SetValidValue(0);
 
   std::cout << "There are " << maskReader->GetOutput()->CountHolePixels() << " holes." << std::endl;
   std::cout << "There are " << maskReader->GetOutput()->CountValidPixels() << " valid pixels." << std::endl;

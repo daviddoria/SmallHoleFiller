@@ -22,7 +22,7 @@
 #include "SmallHoleFiller.h" // Appease syntax parser
 
 // Submodules
-#include "ITKHelpers/ITKHelpers.h"
+#include "Mask/ITKHelpers/ITKHelpers.h"
 
 // ITK
 #include "itkImageFileWriter.h" // For intermediate debugging output
