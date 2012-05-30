@@ -45,34 +45,33 @@ int main (int argc, char *argv[])
   std::cout << "Input mask: " << inputMaskFileName << std::endl;
   std::cout << "Output image: " << outputFileName << std::endl;
 
-  // We must use float pixels so that the averaging operation does not overflow
-  typedef itk::RGBPixel<float> RGBFloatPixelType; 
-  typedef itk::Image<RGBFloatPixelType> RGBFloatImageType;
+  // Always use float pixels internally
+  typedef itk::VectorImage<float, 2> InternalImageType;
 
-  typedef itk::ImageFileReader<RGBFloatImageType> ImageReaderType;
+  // Read the image
+  typedef itk::ImageFileReader<InternalImageType> ImageReaderType;
   ImageReaderType::Pointer imageReader = ImageReaderType::New();
   imageReader->SetFileName(inputImageFileName);
   imageReader->Update();
 
+  // Read the mask
   Mask::Pointer mask = Mask::New();
   mask->Read(inputMaskFileName);
 
-  SmallHoleFiller<RGBFloatImageType> smallHoleFiller(imageReader->GetOutput(), mask);
+  SmallHoleFiller<InternalImageType> smallHoleFiller(imageReader->GetOutput(), mask);
   //smallHoleFiller.SetWriteIntermediateOutput(true);
   smallHoleFiller.Fill();
 
-  typedef itk::RGBPixel<unsigned char> RGBUCharPixelType;
-  typedef itk::Image<RGBUCharPixelType> RGBUCharImageType;
-  typedef itk::CastImageFilter<RGBFloatImageType, RGBUCharImageType> CastFilterType;
-  CastFilterType::Pointer castFilter = CastFilterType::New();
-  castFilter->SetInput(smallHoleFiller.GetOutput());
-  castFilter->Update();
+  itk::ImageIOBase::IOComponentType pixelType = ITKHelpers::GetPixelTypeFromFile(inputImageFileName);
 
-  typedef  itk::ImageFileWriter< RGBUCharImageType  > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(outputFileName);
-  writer->SetInput(castFilter->GetOutput());
-  writer->Update();
+  if(pixelType == itk::ImageIOBase::UCHAR)
+  {
+    ITKHelpers::WriteRGBImage(smallHoleFiller.GetOutput(), outputFileName);
+  }
+  else
+  {
+    ITKHelpers::WriteImage(smallHoleFiller.GetOutput(), outputFileName);
+  }
 
   return EXIT_SUCCESS;
 }

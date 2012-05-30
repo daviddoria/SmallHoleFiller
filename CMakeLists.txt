@@ -16,16 +16,11 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 FIND_PACKAGE(ITK REQUIRED)
 INCLUDE( ${USE_ITK_FILE} )
 
-# add_executable(FillSmallHolesAllComponents FillSmallHolesAllComponents.cpp)
-# TARGET_LINK_LIBRARIES(FillSmallHolesAllComponents ${ITK_LIBRARIES} ITKHelpers Mask)
-# INSTALL( TARGETS FillSmallHolesAllComponents RUNTIME DESTINATION ${INSTALL_DIR} )
+add_executable(FillSmallHoles FillSmallHoles.cpp)
+TARGET_LINK_LIBRARIES(FillSmallHoles ${ITK_LIBRARIES} ITKHelpers Mask)
+INSTALL( TARGETS FillSmallHoles RUNTIME DESTINATION ${INSTALL_DIR} )
 
-add_executable(FillSmallHolesRGB FillSmallHolesRGB.cpp)
-TARGET_LINK_LIBRARIES(FillSmallHolesRGB ${ITK_LIBRARIES} ITKHelpers Mask)
-INSTALL( TARGETS FillSmallHolesRGB RUNTIME DESTINATION ${INSTALL_DIR} )
-
-# add_executable(FillSmallHolesScalar FillSmallHolesScalar.cpp)
-# TARGET_LINK_LIBRARIES(FillSmallHolesScalar ${ITK_LIBRARIES} ITKHelpers Mask)
-# INSTALL( TARGETS FillSmallHolesScalar RUNTIME DESTINATION ${INSTALL_DIR} )
-
-#add_subdirectory(GUI)
+SET(BuildGUI ON CACHE BOOL "Build the GUI" FORCE)
+if(BuildGUI)
+  add_subdirectory(GUI)
+endif(BuildGUI)
