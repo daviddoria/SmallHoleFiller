@@ -21,8 +21,8 @@
 
 #include "ui_SmallHoleFillerWidget.h"
 
-// Custom
-#include "Mask.h"
+// Submodules
+#include "Mask/Mask.h"
 
 // ITK
 #include "itkVectorImage.h"
@@ -40,7 +40,7 @@ public:
   SmallHoleFillerWidget(const std::string& imageFileName, const std::string& maskFileName);
 
   typedef itk::VectorImage<float,2> ImageType;
-  
+
 public slots:
 
   void on_actionOpenImage_activated();
@@ -60,7 +60,7 @@ public slots:
 private:
 
   void SharedConstructor();
-    
+
   void showEvent ( QShowEvent * event );
   void resizeEvent ( QResizeEvent * event );
 
@@ -75,7 +75,7 @@ private:
   QGraphicsPixmapItem* ImagePixmapItem;
   QGraphicsPixmapItem* MaskImagePixmapItem;
   QGraphicsPixmapItem* ResultPixmapItem;
-  
+
   QGraphicsScene* Scene;
 
   std::string SourceImageFileName;

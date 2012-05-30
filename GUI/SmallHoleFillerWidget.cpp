@@ -19,8 +19,10 @@
 #include "SmallHoleFillerWidget.h"
 
 // Custom
-#include "HelpersQt.h"
 #include "SmallHoleFiller.h"
+
+// Submodules
+#include "ITKQtHelpers/ITKQtHelpers.h"
 
 // ITK
 #include "itkImageFileReader.h"
@@ -90,11 +92,11 @@ void SmallHoleFillerWidget::on_btnFill_clicked()
   SmallHoleFiller<ImageType> smallHoleFiller(Image.GetPointer(), MaskImage.GetPointer());
   smallHoleFiller.Fill();
 
-  Helpers::DeepCopy(smallHoleFiller.GetOutput().GetPointer(), Result.GetPointer());
+  ITKHelpers::DeepCopy(smallHoleFiller.GetOutput(), Result.GetPointer());
 
-  Helpers::WriteImage(Result.GetPointer(), "result.mha");
+  ITKHelpers::WriteImage(Result.GetPointer(), "result.mha");
 
-  QImage qimageImage = HelpersQt::GetQImageRGBA<ImageType>(this->Result);
+  QImage qimageImage = ITKQtHelpers::GetQImageColor(this->Result.GetPointer());
   this->ResultPixmapItem = this->Scene->addPixmap(QPixmap::fromImage(qimageImage));
   this->graphicsView->fitInView(this->ResultPixmapItem, Qt::KeepAspectRatio);
   this->ResultPixmapItem->setVisible(this->chkShowOutput->isChecked());
@@ -111,7 +113,7 @@ void SmallHoleFillerWidget::on_actionSaveResult_activated()
     return;
     }
 
-  Helpers::WriteImage(this->Result.GetPointer(), fileName.toStdString());
+  ITKHelpers::WriteImage(this->Result.GetPointer(), fileName.toStdString());
   //Helpers::WriteRGBImage<ImageType>(this->Result, fileName.toStdString() + ".png");
   this->statusBar()->showMessage("Saved result.");
 }
@@ -124,9 +126,9 @@ void SmallHoleFillerWidget::OpenImage(const std::string& imageFileName)
   imageReader->SetFileName(imageFileName);
   imageReader->Update();
 
-  Helpers::DeepCopy(imageReader->GetOutput(), this->Image.GetPointer());
+  ITKHelpers::DeepCopy(imageReader->GetOutput(), this->Image.GetPointer());
 
-  QImage qimageImage = HelpersQt::GetQImageRGBA(this->Image.GetPointer());
+  QImage qimageImage = ITKQtHelpers::GetQImageColor(this->Image.GetPointer());
   this->ImagePixmapItem = this->Scene->addPixmap(QPixmap::fromImage(qimageImage));
   this->graphicsView->fitInView(this->ImagePixmapItem);
   this->ImagePixmapItem->setVisible(this->chkShowInput->isChecked());
@@ -140,9 +142,9 @@ void SmallHoleFillerWidget::OpenMask(const std::string& maskFileName)
   maskReader->SetFileName(maskFileName);
   maskReader->Update();
 
-  Helpers::DeepCopy(maskReader->GetOutput(), this->MaskImage.GetPointer());
+  ITKHelpers::DeepCopy(maskReader->GetOutput(), this->MaskImage.GetPointer());
 
-  QImage qimageMask = HelpersQt::GetQMaskImage(this->MaskImage);
+  QImage qimageMask = ITKQtHelpers::GetQImageScalar(this->MaskImage.GetPointer());
   this->MaskImagePixmapItem = this->Scene->addPixmap(QPixmap::fromImage(qimageMask));
   this->MaskImagePixmapItem->setVisible(this->chkShowMask->isChecked());
 }
@@ -155,9 +157,9 @@ void SmallHoleFillerWidget::OpenImageAndMask(const std::string& imageFileName, c
   imageReader->SetFileName(imageFileName);
   imageReader->Update();
 
-  Helpers::DeepCopy(imageReader->GetOutput(), this->Image.GetPointer());
+  ITKHelpers::DeepCopy(imageReader->GetOutput(), this->Image.GetPointer());
 
-  QImage qimageImage = HelpersQt::GetQImageRGBA(this->Image.GetPointer());
+  QImage qimageImage = ITKQtHelpers::GetQImageColor(this->Image.GetPointer());
   this->ImagePixmapItem = this->Scene->addPixmap(QPixmap::fromImage(qimageImage));
   this->graphicsView->fitInView(this->ImagePixmapItem);
   this->ImagePixmapItem->setVisible(this->chkShowInput->isChecked());
@@ -168,9 +170,9 @@ void SmallHoleFillerWidget::OpenImageAndMask(const std::string& imageFileName, c
   maskReader->SetFileName(maskFileName);
   maskReader->Update();
 
-  Helpers::DeepCopy(maskReader->GetOutput(), this->MaskImage.GetPointer());
+  ITKHelpers::DeepCopy(maskReader->GetOutput(), this->MaskImage.GetPointer());
 
-  QImage qimageMask = HelpersQt::GetQMaskImage(this->MaskImage);
+  QImage qimageMask = ITKQtHelpers::GetQImageScalar(this->MaskImage.GetPointer());
   this->MaskImagePixmapItem = this->Scene->addPixmap(QPixmap::fromImage(qimageMask));
   this->MaskImagePixmapItem->setVisible(this->chkShowMask->isChecked());
 }
@@ -242,7 +244,7 @@ void SmallHoleFillerWidget::slot_StopProgressBar()
 
 void SmallHoleFillerWidget::slot_IterationComplete()
 {
-  QImage qimage = HelpersQt::GetQImageRGBA<ImageType>(this->Result);
+  QImage qimage = ITKQtHelpers::GetQImageColor(this->Result.GetPointer());
   this->ResultPixmapItem = this->Scene->addPixmap(QPixmap::fromImage(qimage));
   this->ResultPixmapItem->setVisible(this->chkShowOutput->isChecked());
 }
