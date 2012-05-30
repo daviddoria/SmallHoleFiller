@@ -18,8 +18,9 @@
 
 #include "SmallHoleFiller.h"
 
-// Custom
+// Submodules
 #include "Mask/Mask.h"
+#include "Mask/ITKHelpers/ITKHelpers.h"
 
 // ITK
 #include "itkCastImageFilter.h"
@@ -29,20 +30,25 @@
 int main (int argc, char *argv[])
 {
   // Verify arguments
-  if(argc != 4)
+  if(argc != 5)
     {
-    std::cerr << "Required arguments: InputImageFileName MaskFileName OutputFileName" << std::endl;
+    std::cerr << "Required arguments: InputImageFileName MaskFileName KernelRadius OutputFileName" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Parse arguments
-  std::string inputImageFileName = argv[1];
-  std::string inputMaskFileName = argv[2];
-  std::string outputFileName = argv[3];
+  std::stringstream ssArguments;
+  ssArguments << argv[1] << " " << argv[2] << " " << argv[3] << " "  << argv[4];
+  std::string inputImageFileName;
+  std::string inputMaskFileName;
+  unsigned int kernelRadius;
+  std::string outputFileName;
+  ssArguments >> inputImageFileName >> inputMaskFileName >> kernelRadius >> outputFileName;
 
   // Output arguments
   std::cout << "Input image: " << inputImageFileName << std::endl;
   std::cout << "Input mask: " << inputMaskFileName << std::endl;
+  std::cout << "Kernel radius: " << kernelRadius << std::endl;
   std::cout << "Output image: " << outputFileName << std::endl;
 
   // Always use float pixels internally
@@ -60,6 +66,7 @@ int main (int argc, char *argv[])
 
   SmallHoleFiller<InternalImageType> smallHoleFiller(imageReader->GetOutput(), mask);
   //smallHoleFiller.SetWriteIntermediateOutput(true);
+  smallHoleFiller.SetKernelRadius(kernelRadius);
   smallHoleFiller.Fill();
 
   itk::ImageIOBase::IOComponentType pixelType = ITKHelpers::GetPixelTypeFromFile(inputImageFileName);

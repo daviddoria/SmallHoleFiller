@@ -41,9 +41,10 @@ public:
   /** In this class, non-zero pixels indicate valid pixels, while zero pixels indicate pixels to be filled. */
   void SetMask(const Mask* const mask);
 
+  /** Get the mask. */
   Mask* GetMask();
 
-  // Outputs
+  /** Get the output. */
   TImage* GetOutput();
 
   /** This is the main loop. It simply calls Iterate() until complete.*/
@@ -52,24 +53,34 @@ public:
   /** This is the core functionality.*/
   void Iterate();
 
+  /** Determine if an image should be written at each iteration. */
   void SetWriteIntermediateOutput(const bool);
+
+  /** Set the radius of the kernel to use for averaging. */
+  void SetKernelRadius(const unsigned int kernelRadius);
 
 private:
 
+  /** Common functionality for all constructors. */
   void SharedConstructor();
 
-  // The input image.
+  /** The image to fill. */
   typename TImage::Pointer Image;
 
+  /** The region in which to fill the image. */
   Mask::Pointer MaskImage;
 
   /** The intermediate and eventually output image.*/
   typename TImage::Pointer Output;
 
+  /** The flag determining if debug images should be written. */
   bool WriteIntermediateOutput;
 
+  /** The current iteration. This is only used to write debug images. */
   unsigned int CurrentIteration;
 
+  /** The radius of the kernel in which to average valid pixels. */
+  unsigned int KernelRadius;
 };
 
 #include "SmallHoleFiller.hpp"

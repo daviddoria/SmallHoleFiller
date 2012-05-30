@@ -54,6 +54,8 @@ void SmallHoleFiller<TImage>::SharedConstructor()
   this->MaskImage = Mask::New();
 
   this->WriteIntermediateOutput = false;
+
+  this->KernelRadius = 2;
 }
 
 template <typename TImage>
@@ -144,9 +146,13 @@ void SmallHoleFiller<TImage>::Iterate()
       // There are valid neighbors, so fill the output pixel and mark the mask pixel as filled.
       if(previousMask->HasValidNeighbor(currentIndex))
         {
+        itk::ImageRegion<2> surroundingRegion = ITKHelpers::GetRegionInRadiusAroundPixel(currentIndex, this->KernelRadius);
+
+        std::vector<itk::Index<2> > validIndicesInRegion = previousMask->GetValidPixelsInRegion(surroundingRegion);
+        std::vector<typename TImage::PixelType> validPixelsInRegion =
+                ITKHelpers::GetPixelValues(currentImage.GetPointer(), validIndicesInRegion);
         typename TImage::PixelType neighborhoodAverage =
-                MaskOperations::AverageValidNeighborValue(currentImage.GetPointer(), previousMask,
-                                                          currentIndex);
+                ITKStatistics::Average(validPixelsInRegion);
 
         this->Output->SetPixel(currentIndex, neighborhoodAverage);
 
@@ -165,6 +171,15 @@ template <typename TImage>
 Mask* SmallHoleFiller<TImage>::GetMask()
 {
   return this->MaskImage;
+}
+template <typename TImage>
+void SmallHoleFiller<TImage>::SetKernelRadius(const unsigned int kernelRadius)
+{
+  if(kernelRadius < 1)
+  {
+    throw std::runtime_error("Kernel radius must be >= 1 !");
+  }
+  this->KernelRadius = kernelRadius;
 }
 
 #endif
