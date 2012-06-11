@@ -48,26 +48,31 @@ SmallHoleFiller<TImage>::SmallHoleFiller(TImage* const image, Mask* const mask)
 template <typename TImage>
 void SmallHoleFiller<TImage>::SharedConstructor()
 {
+  this->OriginalImage = TImage::New();
   this->Image = TImage::New();
+  
   this->Output = TImage::New();
 
+  this->OriginalMaskImage = Mask::New();
   this->MaskImage = Mask::New();
 
   this->WriteIntermediateOutput = false;
 
   this->KernelRadius = 2;
+
+  this->DownsampleFactor = 1;
 }
 
 template <typename TImage>
 void SmallHoleFiller<TImage>::SetImage(TImage* const image)
 {
-  ITKHelpers::DeepCopy(image, this->Image.GetPointer());
+  ITKHelpers::DeepCopy(image, this->OriginalImage.GetPointer());
 }
 
 template <typename TImage>
 void SmallHoleFiller<TImage>::SetMask(const Mask* const mask)
 {
-  this->MaskImage->DeepCopyFrom(mask);
+  this->OriginalMaskImage->DeepCopyFrom(mask);
 }
 
 template <typename TImage>
@@ -79,6 +84,18 @@ TImage* SmallHoleFiller<TImage>::GetOutput()
 template <typename TImage>
 void SmallHoleFiller<TImage>::Fill()
 {
+  // Downsample the image
+  itk::Size<2> destinationSize;
+  destinationSize[0] = this->OriginalImage->GetLargestPossibleRegion().GetSize()[0] / this->DownsampleFactor;
+  destinationSize[1] = this->OriginalImage->GetLargestPossibleRegion().GetSize()[1] / this->DownsampleFactor;
+
+  ITKHelpers::ScaleImage(this->OriginalImage.GetPointer(), destinationSize, this->Image.GetPointer());
+  ITKHelpers::WriteRGBImage(this->Image.GetPointer(), "Downsampled.png");
+
+  ITKHelpers::ScaleImage(this->OriginalMaskImage.GetPointer(), destinationSize, this->MaskImage.GetPointer());
+  this->MaskImage->CopyInformationFrom(this->OriginalMaskImage);
+  ITKHelpers::WriteImage(this->MaskImage.GetPointer(), "DownsampledMask.png");
+
   this->CurrentIteration = 0;
   // Initialize by setting the output image to the input image.
   ITKHelpers::DeepCopy(this->Image.GetPointer(), this->Output.GetPointer());
@@ -90,9 +107,13 @@ void SmallHoleFiller<TImage>::Fill()
 
     if(this->WriteIntermediateOutput)
       {
-      std::stringstream ss;
-      ss << "intermediate_" << this->CurrentIteration << ".mha";
-      ITKHelpers::WriteImage(this->Output.GetPointer(), ss.str());
+      std::stringstream ssMHA;
+      ssMHA << "intermediate_" << this->CurrentIteration << ".mha";
+      ITKHelpers::WriteImage(this->Output.GetPointer(), ssMHA.str());
+
+      std::stringstream ssPNG;
+      ssPNG << "intermediate_" << this->CurrentIteration << ".png";
+      ITKHelpers::WriteRGBImage(this->Output.GetPointer(), ssPNG.str());
 
       std::stringstream ssMask;
       ssMask << "intermediateMask_" << this->CurrentIteration << ".png";
@@ -100,6 +121,14 @@ void SmallHoleFiller<TImage>::Fill()
       }
     this->CurrentIteration++;
     }
+
+  ITKHelpers::WriteRGBImage(this->Output.GetPointer(), "Output.png");
+
+  typename TImage::Pointer tempOutput = TImage::New();
+  ITKHelpers::ScaleImage(this->Output.GetPointer(), this->OriginalImage->GetLargestPossibleRegion().GetSize(),
+                         tempOutput.GetPointer());
+  ITKHelpers::DeepCopy(this->OriginalImage.GetPointer(), this->Output.GetPointer());
+  MaskOperations::CopyInHoleRegion(tempOutput.GetPointer(), this->Output.GetPointer(), this->OriginalMaskImage);
 
   std::cout << "Filling completed in " << this->CurrentIteration << " iterations." << std::endl;
 }
@@ -146,13 +175,26 @@ void SmallHoleFiller<TImage>::Iterate()
       // There are valid neighbors, so fill the output pixel and mark the mask pixel as filled.
       if(previousMask->HasValidNeighbor(currentIndex))
         {
-        itk::ImageRegion<2> surroundingRegion = ITKHelpers::GetRegionInRadiusAroundPixel(currentIndex, this->KernelRadius);
+        itk::ImageRegion<2> surroundingRegion =
+               ITKHelpers::GetRegionInRadiusAroundPixel(currentIndex, this->KernelRadius);
 
         std::vector<itk::Index<2> > validIndicesInRegion = previousMask->GetValidPixelsInRegion(surroundingRegion);
+
         std::vector<typename TImage::PixelType> validPixelsInRegion =
                 ITKHelpers::GetPixelValues(currentImage.GetPointer(), validIndicesInRegion);
+
         typename TImage::PixelType neighborhoodAverage =
-                ITKStatistics::Average(validPixelsInRegion);
+                Statistics::Average(validPixelsInRegion);
+        if(neighborhoodAverage[0] > 255)
+        {
+          std::cout << "There are " << validPixelsInRegion.size() << " validPixelsInRegion." << std::endl;
+          for(unsigned int i = 0; i < validPixelsInRegion.size(); ++i)
+          {
+            std::cout << validPixelsInRegion[i] << std::endl;
+          }
+          std::cout << "neighborhoodAverage: " << neighborhoodAverage << std::endl;
+          throw;
+        }
 
         this->Output->SetPixel(currentIndex, neighborhoodAverage);
 
@@ -165,6 +207,14 @@ void SmallHoleFiller<TImage>::Iterate()
 
     ++boundaryImageIterator;
     }// end main traversal loop
+
+  if(this->WriteIntermediateOutput)
+    {
+    std::stringstream ssPNG;
+    ssPNG << "iteration_" << this->CurrentIteration << ".png";
+    ITKHelpers::WriteRGBImage(this->Output.GetPointer(), ssPNG.str());
+    }
+
 }
 
 template <typename TImage>
@@ -172,6 +222,7 @@ Mask* SmallHoleFiller<TImage>::GetMask()
 {
   return this->MaskImage;
 }
+
 template <typename TImage>
 void SmallHoleFiller<TImage>::SetKernelRadius(const unsigned int kernelRadius)
 {
@@ -180,6 +231,16 @@ void SmallHoleFiller<TImage>::SetKernelRadius(const unsigned int kernelRadius)
     throw std::runtime_error("Kernel radius must be >= 1 !");
   }
   this->KernelRadius = kernelRadius;
+}
+
+template <typename TImage>
+void SmallHoleFiller<TImage>::SetDownsampleFactor(const unsigned int downsampleFactor)
+{
+  if(downsampleFactor < 1)
+  {
+    throw std::runtime_error("downsampleFactor must be >= 1 !");
+  }
+  this->DownsampleFactor = downsampleFactor;
 }
 
 #endif

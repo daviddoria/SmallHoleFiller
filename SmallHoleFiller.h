@@ -59,17 +59,26 @@ public:
   /** Set the radius of the kernel to use for averaging. */
   void SetKernelRadius(const unsigned int kernelRadius);
 
+  /** Set the factor by which to downsample the image before filling the hole. */
+  void SetDownsampleFactor(const unsigned int downsampleFactor);
+
 private:
 
   /** Common functionality for all constructors. */
   void SharedConstructor();
 
   /** The image to fill. */
+  typename TImage::Pointer OriginalImage;
+
+  /** The downsampled image. */
   typename TImage::Pointer Image;
 
   /** The region in which to fill the image. */
-  Mask::Pointer MaskImage;
+  Mask::Pointer OriginalMaskImage;
 
+  /** The downsampled mask. */
+  Mask::Pointer MaskImage;
+  
   /** The intermediate and eventually output image.*/
   typename TImage::Pointer Output;
 
@@ -81,6 +90,9 @@ private:
 
   /** The radius of the kernel in which to average valid pixels. */
   unsigned int KernelRadius;
+
+  /** The factor by which to downsample the image before filling the hole. */
+  unsigned int DownsampleFactor;
 };
 
 #include "SmallHoleFiller.hpp"

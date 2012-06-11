@@ -30,25 +30,33 @@
 int main (int argc, char *argv[])
 {
   // Verify arguments
-  if(argc != 5)
+  if(argc < 5)
     {
-    std::cerr << "Required arguments: InputImageFileName MaskFileName KernelRadius OutputFileName" << std::endl;
+    std::cerr << "Required arguments: InputImageFileName MaskFileName KernelRadius "
+              << "downsampleFactor OutputFileName" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Parse arguments
   std::stringstream ssArguments;
-  ssArguments << argv[1] << " " << argv[2] << " " << argv[3] << " "  << argv[4];
+  for(int i = 1; i < argc; ++i)
+  {
+    ssArguments << argv[i] << " ";
+  }
+
   std::string inputImageFileName;
   std::string inputMaskFileName;
   unsigned int kernelRadius;
   std::string outputFileName;
-  ssArguments >> inputImageFileName >> inputMaskFileName >> kernelRadius >> outputFileName;
+  unsigned int downsampleFactor;
+  ssArguments >> inputImageFileName >> inputMaskFileName >> kernelRadius
+              >> downsampleFactor >> outputFileName;
 
   // Output arguments
   std::cout << "Input image: " << inputImageFileName << std::endl;
   std::cout << "Input mask: " << inputMaskFileName << std::endl;
   std::cout << "Kernel radius: " << kernelRadius << std::endl;
+  std::cout << "Downsample Factor: " << downsampleFactor << std::endl;
   std::cout << "Output image: " << outputFileName << std::endl;
 
   // Always use float pixels internally
@@ -67,6 +75,7 @@ int main (int argc, char *argv[])
   SmallHoleFiller<InternalImageType> smallHoleFiller(imageReader->GetOutput(), mask);
   //smallHoleFiller.SetWriteIntermediateOutput(true);
   smallHoleFiller.SetKernelRadius(kernelRadius);
+  smallHoleFiller.SetDownsampleFactor(downsampleFactor);
   smallHoleFiller.Fill();
 
   itk::ImageIOBase::IOComponentType pixelType = ITKHelpers::GetPixelTypeFromFile(inputImageFileName);
