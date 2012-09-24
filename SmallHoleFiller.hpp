@@ -152,7 +152,8 @@ void SmallHoleFiller<TImage>::Iterate()
 
   // Compute the hole-side of the hole boundary
   Mask::BoundaryImageType::Pointer boundaryImage = Mask::BoundaryImageType::New();
-  previousMask->FindBoundary(boundaryImage, Mask::HOLE);
+  previousMask->CreateBoundaryImage(boundaryImage, Mask::HOLE);
+
 //   std::stringstream ssBoundary;
 //   ssBoundary << "boundary_" << this->CurrentIteration << ".png";
 //   ITKHelpers::WriteImage(boundaryImage.GetPointer(), ssBoundary.str());
