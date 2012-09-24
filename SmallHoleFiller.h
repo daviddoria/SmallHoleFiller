@@ -20,7 +20,7 @@
 #define SmallHoleFiller_H
 
 // Submodules
-#include "Mask/Mask.h"
+#include <Mask/Mask.h>
 
 // ITK
 #include "itkImage.h"

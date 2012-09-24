@@ -5,7 +5,14 @@ SET( INSTALL_DIR ${CMAKE_INSTALL_PREFIX} )
 
 PROJECT(SmallHoleFiller)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=gnu++0x")
+add_custom_target(SmallHoleFillerSources SOURCES
+SmallHoleFiller.h
+SmallHoleFiller.hpp)
+
+# Enable c++11
+if(UNIX)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=gnu++11")
+endif()
 
 # Submodules
 # Only include Helpers if it is not already available
@@ -19,8 +26,6 @@ set(SmallHoleFiller_include_dirs ${SmallHoleFiller_include_dirs} ${MaskIncludeDi
 get_property(MaskLibs GLOBAL PROPERTY MaskLibs)
 set(SmallHoleFiller_libraries ${SmallHoleFiller_libraries} ${MaskLibs})
 
-# This is so subdirectories can include files in this directory with #include "file.h"
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${SmallHoleFiller_include_dirs})
 
 # ITK
@@ -35,11 +40,24 @@ FIND_PACKAGE(VTK REQUIRED)
 INCLUDE(${VTK_USE_FILE})
 set(SmallHoleFiller_libraries ${SmallHoleFiller_libraries} ${VTK_LIBRARIES})
 
+# Allow this project to be detected and used as a submodule
+set(SmallHoleFiller_include_dirs ${SmallHoleFiller_include_dirs} ${CMAKE_CURRENT_SOURCE_DIR})
+set_property(GLOBAL PROPERTY SmallHoleFillerIncludeDirs ${SmallHoleFiller_include_dirs})
+set_property(GLOBAL PROPERTY SmallHoleFillerLibs ${SmallHoleFiller_libraries})
+
+# Create an executable
 add_executable(FillSmallHoles FillSmallHoles.cpp)
 TARGET_LINK_LIBRARIES(FillSmallHoles ${SmallHoleFiller_libraries})
 INSTALL( TARGETS FillSmallHoles RUNTIME DESTINATION ${INSTALL_DIR} )
 
+# Build the GUI if requested
 option(BuildGUI "Build the GUI?" OFF)
 if(BuildGUI)
   add_subdirectory(GUI)
 endif(BuildGUI)
+
+# Display where this code was used from (if it is used as a submodule, there may be multiple instances of this submodule in the project, only the first of which is used)
+option(SmallHoleFiller_ShowSubmoduleLocation "Show the path from which SmallHoleFiller was used?" OFF)
+if(SmallHoleFiller_ShowSubmoduleLocation)
+  message("SmallHoleFiller used from ${CMAKE_CURRENT_SOURCE_DIR}")
+endif(SmallHoleFiller_ShowSubmoduleLocation)
