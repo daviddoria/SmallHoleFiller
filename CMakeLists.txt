@@ -46,9 +46,12 @@ set_property(GLOBAL PROPERTY SmallHoleFillerIncludeDirs ${SmallHoleFiller_includ
 set_property(GLOBAL PROPERTY SmallHoleFillerLibs ${SmallHoleFiller_libraries})
 
 # Create an executable
-add_executable(FillSmallHoles FillSmallHoles.cpp)
-TARGET_LINK_LIBRARIES(FillSmallHoles ${SmallHoleFiller_libraries})
-INSTALL( TARGETS FillSmallHoles RUNTIME DESTINATION ${INSTALL_DIR} )
+option(BUILD_SmallHoleFiller "Build the SmallHoleFiller executable?" ON)
+if(BUILD_SmallHoleFiller)
+    add_executable(FillSmallHoles FillSmallHoles.cpp)
+    TARGET_LINK_LIBRARIES(FillSmallHoles ${SmallHoleFiller_libraries})
+    INSTALL( TARGETS FillSmallHoles RUNTIME DESTINATION ${INSTALL_DIR} )
+endif()
 
 # Build the GUI if requested
 option(BuildGUI "Build the GUI?" OFF)
